@@ -1,0 +1,3 @@
+python scan-reciepts-hf.py   # OCR + LLM → outputs/expenses.json
+python run.py                 # categorize + analyze + advise → outputs/crew_analysis.json
+python analysis.py            # prints the dashboard

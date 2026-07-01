@@ -11,7 +11,7 @@ if not os.environ.get("GEMINI_API_KEY"):
 
 #setup gemini
 gemini_model = LLM(
-    model="gemini/gemini-1.5-flash",
+    model="gemini/gemini-2.5-flash",
     api_key=os.environ.get("GEMINI_API_KEY")
 )
 
@@ -93,40 +93,25 @@ def get_categorize_task(agent, new_receipts):
         expected_output="A JSON object with the categorized receipts."
     )
 
-def get_analyze_task(agent, all_receipts, categorizations):
+def get_analyze_task(agent, all_receipts):
     """Task for the Analyst to crunch the numbers."""
     
-    total_spent = 0
-    category_totals = {}
-    
-    # Calculate the total spent per category and total (manually do maths in function)
+    # Just pass the amounts so the LLM can do the math itself using the categories from the previous task
+    receipt_text = ""
     for receipt in all_receipts:
-        image_name = receipt['image_file']
-        
-        # Look up the category we assigned earlier (default to 'Other' if not found)
-        assigned_category = categorizations.get(image_name, {}).get('category', 'Other')
-        
-        # Get the amount spent (default to 0 if it's missing)
-        amount = receipt.get('total', 0) 
-        if amount is None: amount = 0
-            
-        # Add the amount to our running totals
-        total_spent += amount
-        
-        if assigned_category in category_totals:
-            category_totals[assigned_category] += amount
-        else:
-            category_totals[assigned_category] = amount
+        receipt_text += f"- File: {receipt['image_file']}, Amount: ₹{receipt['total']}\n"
 
     prompt = f"""
-    Analyze this spending data:
-    Total Spent: ₹{total_spent}
-    Breakdown: {json.dumps(category_totals)}
+    You will receive a JSON object of categorized receipts from the previous Categorizer task.
+    Match them with these receipt amounts:
+    {receipt_text}
+    
+    Calculate the exact total spent overall, and the total spent per category.
     
     Return ONLY a JSON dictionary in the following format (no extra text):
     {{
-      "total_spent": {total_spent},
-      "by_category": {json.dumps(category_totals)},
+      "total_spent": 100.50,
+      "by_category": {{"Groceries": 50.00, "Other": 50.50}},
       "insights": ["Insight 1", "Insight 2"]
     }}
     """
@@ -137,26 +122,33 @@ def get_analyze_task(agent, all_receipts, categorizations):
         expected_output="A JSON object with spending insights."
     )
 
-def get_advice_task(agent, analysis_data):
+def get_advice_task(agent):
     """Task for the Advisor to give tips based on the analysis."""
     
     prompt = f"""
-    Based on this spending analysis:
-    {json.dumps(analysis_data)}
+    You will receive a spending analysis JSON from the previous Financial Analyst task.
+    Based on that analysis, give practical advice for a student trying to save money.
     
-    Give practical advice for a student trying to save money.
+    Combine the analysis data you received with your new advice into a single JSON response.
     
-    Return ONLY a JSON dictionary in the following format (no extra text):
+    Return ONLY a JSON dictionary in the exact following format (no extra text, no markdown backticks):
     {{
-      "budget_status": "Doing great / Needs work",
-      "tips": ["Tip 1", "Tip 2"],
-      "quick_win": "One thing they can do right now to save money",
-      "positive_note": "A short encouraging sentence"
+      "analysis": {{
+        "total_spent": 0,
+        "by_category": {{}},
+        "insights": []
+      }},
+      "advice": {{
+        "budget_status": "Doing great / Needs work",
+        "tips": ["Tip 1", "Tip 2"],
+        "quick_win": "One thing they can do right now to save money",
+        "positive_note": "A short encouraging sentence"
+      }}
     }}
     """
     
     return Task(
         description=prompt,
         agent=agent,
-        expected_output="A JSON object with friendly advice."
+        expected_output="A single JSON object combining analysis and friendly advice."
     )
