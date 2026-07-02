@@ -1,0 +1,284 @@
+[
+  {
+    "seq_no": 1,
+    "image_file": "1.jpg",
+    "merchant": "TRADER JOE'S",
+    "date": "2014-06-28",
+    "total": 38.68,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "R-CARROTS SHREDDED 10 OZ",
+        "quantity": 1.0,
+        "amount": 1.29
+      },
+      {
+        "item_id": 2,
+        "description": "R-CUCUMBERS PERSIAN 1 LB",
+        "quantity": 1.0,
+        "amount": 1.99
+      },
+      {
+        "item_id": 3,
+        "description": "TOMATOES CRUSHED NO SALT",
+        "quantity": 1.0,
+        "amount": 1.59
+      },
+      {
+        "item_id": 4,
+        "description": "TOMATOES WHOLE NO SALT W/BASIL",
+        "quantity": 1.0,
+        "amount": 1.59
+      },
+      {
+        "item_id": 5,
+        "description": "ORGANIC OLD FASHIONED OATMEAL",
+        "quantity": 1.0,
+        "amount": 2.69
+      },
+      {
+        "item_id": 6,
+        "description": "MINI-PEARL TOMATOES",
+        "quantity": 1.0,
+        "amount": 2.49
+      },
+      {
+        "item_id": 7,
+        "description": "PKG SHREDDED MOZZARELLA LITE T",
+        "quantity": 1.0,
+        "amount": 3.99
+      },
+      {
+        "item_id": 8,
+        "description": "EGGS 1 DOZ ORGANIC BROWN",
+        "quantity": 1.0,
+        "amount": 3.79
+      },
+      {
+        "item_id": 9,
+        "description": "BEANS GARBANZO",
+        "quantity": 1.0,
+        "amount": 0.89
+      },
+      {
+        "item_id": 10,
+        "description": "SPROUTED CA STYLE",
+        "quantity": 1.0,
+        "amount": 2.99
+      },
+      {
+        "item_id": 11,
+        "description": "A-AVOCADOS HASS BAG 4CT",
+        "quantity": 1.0,
+        "amount": 3.99
+      },
+      {
+        "item_id": 12,
+        "description": "A-APPLE BAG JAZZ 2 LB",
+        "quantity": 1.0,
+        "amount": 2.99
+      },
+      {
+        "item_id": 13,
+        "description": "A-PEPPER BELL EACH XL RED",
+        "quantity": 1.0,
+        "amount": 0.99
+      },
+      {
+        "item_id": 14,
+        "description": "GROCERY NON TAXABLE",
+        "quantity": 1.0,
+        "amount": 0.98
+      },
+      {
+        "item_id": 15,
+        "description": "BANANAS ORGANIC",
+        "quantity": 1.0,
+        "amount": 0.87
+      },
+      {
+        "item_id": 16,
+        "description": "CREAMY SALTED PEANUT BUTTER",
+        "quantity": 1.0,
+        "amount": 2.49
+      },
+      {
+        "item_id": 17,
+        "description": "WHL WHT PITA BREAD",
+        "quantity": 1.0,
+        "amount": 1.69
+      }
+    ]
+  },
+  {
+    "seq_no": 2,
+    "image_file": "10.jpg",
+    "merchant": "SPAR",
+    "date": "2021-02-23",
+    "total": 338.16,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "LAZENBY WORCESTER SAUCE 125ML",
+        "quantity": 1.0,
+        "amount": 17.99
+      },
+      {
+        "item_id": 2,
+        "description": "MILKY BAR CHOC80GR",
+        "quantity": 1.0,
+        "amount": 16.99
+      },
+      {
+        "item_id": 3,
+        "description": "SMOKED VIENNAS500GR",
+        "quantity": 1.0,
+        "amount": 33.99
+      },
+      {
+        "item_id": 4,
+        "description": "PEALED PEACHES400G",
+        "quantity": 1.0,
+        "amount": 82.99
+      },
+      {
+        "item_id": 5,
+        "description": "NESTLE AERO85GR",
+        "quantity": 1.0,
+        "amount": 20.99
+      },
+      {
+        "item_id": 6,
+        "description": "CADBURY DAIRY MI80GR",
+        "quantity": 1.0,
+        "amount": 16.99
+      },
+      {
+        "item_id": 7,
+        "description": "BLACK CAT SMOOTH270GR",
+        "quantity": 1.0,
+        "amount": 27.99
+      },
+      {
+        "item_id": 8,
+        "description": "CARRIER BAG 24L1'S",
+        "quantity": 1.0,
+        "amount": 0.75
+      }
+    ]
+  },
+  {
+    "seq_no": 3,
+    "image_file": "11.jpg",
+    "merchant": "FOODS MARKET",
+    "date": "unknown",
+    "total": 45.44,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "PL TORTILLA S",
+        "quantity": 1.0,
+        "amount": 6.99
+      },
+      {
+        "item_id": 2,
+        "description": "CAGE FREE ALL WHIT",
+        "quantity": 1.0,
+        "amount": 3.69
+      },
+      {
+        "item_id": 3,
+        "description": "BLACK BEANS",
+        "quantity": 1.0,
+        "amount": 1.29
+      },
+      {
+        "item_id": 4,
+        "description": "Frozen Mangoes 160",
+        "quantity": 1.0,
+        "amount": 2.99
+      },
+      {
+        "item_id": 5,
+        "description": "Whole Strawberries",
+        "quantity": 1.0,
+        "amount": 2.99
+      },
+      {
+        "item_id": 6,
+        "description": "OG LF COTTAGE CHEE",
+        "quantity": 1.0,
+        "amount": 3.49
+      },
+      {
+        "item_id": 7,
+        "description": "MAHI MAHI FILLETS",
+        "quantity": 1.0,
+        "amount": 8.99
+      },
+      {
+        "item_id": 8,
+        "description": "VC$2 off (1) WC Fill",
+        "quantity": 1.0,
+        "amount": -2.0
+      },
+      {
+        "item_id": 9,
+        "description": "California Harvest",
+        "quantity": 1.0,
+        "amount": 2.69
+      },
+      {
+        "item_id": 10,
+        "description": "WTPLUMS BLACK CV",
+        "quantity": 1.0,
+        "amount": 2.15
+      },
+      {
+        "item_id": 11,
+        "description": "NHP SLICED OVEN RO",
+        "quantity": 1.0,
+        "amount": 3.99
+      },
+      {
+        "item_id": 12,
+        "description": "NHP SLICED HICKORY",
+        "quantity": 1.0,
+        "amount": 3.99
+      },
+      {
+        "item_id": 13,
+        "description": "WTGALA APPLES OG",
+        "quantity": 1.0,
+        "amount": 3.26
+      },
+      {
+        "item_id": 14,
+        "description": "TAX.93 BAL",
+        "quantity": 1.0,
+        "amount": 45.44
+      }
+    ]
+  },
+  {
+    "seq_no": 4,
+    "image_file": "12.jpg",
+    "merchant": "WE SELL FOR LESS ALWAYS",
+    "date": "unknown",
+    "total": 18.75,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "SW FIGURES 065356920144",
+        "quantity": 1.0,
+        "amount": 6.63
+      },
+      {
+        "item_id": 2,
+        "description": "TOOTHBRUSH003500055500",
+        "quantity": 1.0,
+        "amount": 0.96
+      }
+    ]
+  }
+]

@@ -1,3 +1,8 @@
-python scan-reciepts-hf.py   # OCR + LLM → outputs/expenses.json
-python run.py                 # categorize + analyze + advise → outputs/crew_analysis.json
-python analysis.py            # prints the dashboard
+# Step 1: Extract line items using Asprise OCR endpoint under test mode
+./.venv/bin/python scan-reciepts-hf.py
+
+# Step 2: Run item-wise categorization, Python accounting engine & AI audit
+./.venv/bin/python run.py
+
+# Step 3: Launch interactive itemized spending dashboard
+./.venv/bin/python analysis.py

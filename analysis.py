@@ -1,64 +1,56 @@
 import json
 import os
 
-##save report at
 FINAL_REPORT_FILE = "outputs/crew_analysis.json"
+ITEMIZED_RECEIPTS_FILE = "outputs/categorized_receipts.json"
 
 def show_dashboard():
-    # Make sure the file exists first
     if not os.path.exists(FINAL_REPORT_FILE):
-        print("Report not found")
+        print(f"Report not found at '{FINAL_REPORT_FILE}'. Please run `python run.py` first.")
         return
 
-    # Load the data
-    with open(FINAL_REPORT_FILE, "r") as file:##open in read mode
-        data = json.load(file)
+    with open(FINAL_REPORT_FILE, "r", encoding="utf-8") as file_ptr:
+        payload = json.load(file_ptr)
 
-    # Extract the parts we need (using .get() prevents errors if keys are missing)
-    ##check analsysis,advice in crew_analsysi.json for already present
-    analysis = data.get("analysis", {})
-    advice = data.get("advice", {})
+    analysis = payload.get("analysis", {})
+    advice = payload.get("advice", {})
 
-   
-    print("  YOUR SMART SPENDING REPORT")
-    
+    print("\n" + "=" * 68)
+    print(" 📊 SMART SPENDING DASHBOARD — ITEM-WISE & VERIFIED AUDIT")
+    print("=" * 68)
 
-    # Total Spent
-    total = analysis.get("total_spent", 0)
-    print(f" total spent: ₹{total:.2f}")
+    total_expenditure = float(analysis.get("total_spent", 0.0))
+    print(f"\n💰 Total Verified Expenditure: ₹{total_expenditure:,.2f}")
 
-    # Categories Breakdown
-    print("\ncategory breakdown:")
+    counts = analysis.get("category_counts", analysis.get("item_counts", {}))
+    total_items = sum(counts.values()) if counts else 0
+    if total_items > 0:
+        print(f"📑 Total Retail Line Items Audited & Classified: {total_items}")
+
+    print("\n📦 EXPENDITURE BREAKDOWN BY RETAIL ITEM CATEGORY:")
     categories = analysis.get("by_category", {})
-    
-    # Sort categories so the highest spending is at the top
     sorted_categories = sorted(categories.items(), key=lambda x: x[1], reverse=True)
-    
-    for category_name, amount in sorted_categories:
-        # Calculate percentage (prevent dividing by zero)
-        if total > 0:
-            percentage = (amount / total) * 100
-        else:
-            percentage = 0
-            
-       #alignment
-        print(f"   • {category_name:<25} ₹{amount:>8.2f}  ({percentage:.1f}%)")
 
-    # Insights
-    print(" AI INSIGHTS:")
+    for cat_name, amount in sorted_categories:
+        pct = (amount / total_expenditure * 100) if total_expenditure > 0 else 0.0
+        cnt = counts.get(cat_name, "")
+        cnt_str = f"({cnt} line items)" if cnt else ""
+        print(f"   • {cat_name:<30} ₹{amount:>10,.2f}  ({pct:>5.1f}%)  {cnt_str}")
+
+    print("\n🧠 SENIOR AUDITOR SPENDING OBSERVATIONS:")
     for insight in analysis.get("insights", []):
-        print(f"   {insight}")
+        print(f"   🔹 {insight}")
 
-    # Advice
-    print("\nCOACHING & ADVICE:")
-    print(f"   Status: {advice.get('budget_status', 'Unknown')}")
+    print("\n🎓 STUDENT FINANCIAL COACHING & ADVICE:")
+    print(f"   ⚡ Health Status: {advice.get('budget_status', 'Stable')}")
     
-    print("   Tips:")
+    print("   💡 Personalized Actionable Strategies:")
     for tip in advice.get("tips", []):
-        print(f"   - {tip}")
+        print(f"      - {tip}")
 
-    print(f"\nQuick Action: {advice.get('quick_win', 'None')}")
-    print(f"Note: {advice.get('positive_note', 'Keep it up!')}\n")
+    print(f"\n   🎯 Quick Win Action: {advice.get('quick_win', 'Audit top spending categories.')}")
+    print(f"   🌟 Note: {advice.get('positive_note', 'Great job tracking your budget!')}\n")
+    print("=" * 68 + "\n")
 
 if __name__ == "__main__":
     show_dashboard()
