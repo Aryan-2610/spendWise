@@ -15,12 +15,62 @@ gemini_model = LLM(
     api_key=os.environ.get("GEMINI_API_KEY")
 )
 
-#category list (9+others)
-VALID_CATEGORIES = [
-    "Groceries", "Food & Drinks", "Snacks", "Household Supplies",
-    "Toiletries & Personal Care", "Electronics", "Medical & Pharmacy",
-    "Clothing & Apparel", "Other"
-]
+#exhaustive category list with keyword hints so merchant names match confidently
+CATEGORY_HINTS = {
+    "Groceries & Quick Commerce": [
+        "zepto", "swiggy instamart", "blinkit", "bigbasket", "supermarket", "grocery",
+        "dairy", "vegetable", "fruit", "produce", "rice", "atta", "flour", "dal",
+        "spice", "snack", "biscuit", "chips", "tea", "coffee", "cereal", "beverage"
+    ],
+    "Dining Out": [
+        "restaurant", "cafe", "bistro", "diner", "fast food", "burger", "pizza",
+        "mcdonalds", "kfc", "domino", "starbucks", "subway", "swiggy", "zomato",
+        "bar", "pub", "dessert", "ice cream", "bakery", "dine"
+    ],
+    "Transportation": [
+        "fuel", "petrol", "diesel", "uber", "ola", "rapido", "taxi", "auto",
+        "transit", "metro", "bus", "train", "flight", "airline", "airways",
+        "parking", "toll", "mechanic", "tyre", "tire"
+    ],
+    "Housing & Utilities": [
+        "rent", "electricity", "power", "water", "gas", "lpg", "cylinder",
+        "internet", "broadband", "wifi", "airtel", "jio", "vodafone", "recharge",
+        "mobile", "phone", "maintenance", "utility", "bill"
+    ],
+    "Shopping & Apparel": [
+        "clothing", "clothes", "shirt", "jeans", "dress", "shoes", "sneakers",
+        "footwear", "accessories", "watch", "bag", "wallet", "boutique",
+        "zara", "h&m", "myntra", "apparel", "fashion"
+    ],
+    "Electronics & Tech": [
+        "electronics", "gadget", "laptop", "mobile device", "tablet", "computer",
+        "software", "subscription", "cloud", "aws", "apple", "google storage",
+        "cable", "charger", "headphone", "earphone", "monitor", "tech"
+    ],
+    "Health & Wellness": [
+        "pharmacy", "medicine", "apollo", "medplus", "medical", "consultation",
+        "doctor", "hospital", "clinic", "lab test", "gym", "fitness", "supplement",
+        "personal care", "shampoo", "soap", "skincare", "salon", "spa"
+    ],
+    "Entertainment": [
+        "movie", "cinema", "pvr", "inox", "netflix", "prime video", "hotstar",
+        "spotify", "youtube", "concert", "event", "ticket", "gaming", "steam"
+    ],
+    "Home & Lifestyle": [
+        "furniture", "ikea", "chair", "table", "mattress", "cleaning",
+        "detergent", "decor", "laundry", "dry clean", "hardware", "kitchenware", "home"
+    ],
+    "Education": [
+        "tuition", "education", "school", "college", "university", "book",
+        "textbook", "notebook", "pen", "stationery", "course", "udemy", "coursera"
+    ],
+    "Financial & Fees": [
+        "bank", "charge", "fee", "interest", "gst", "tax", "vat", "tip",
+        "service charge", "penalty", "insurance", "premium", "emi", "loan"
+    ]
+}
+
+VALID_CATEGORIES = list(CATEGORY_HINTS.keys())
 
 #ai agents
 
@@ -71,17 +121,27 @@ def get_categorize_task(agent, new_receipts):
     receipt_text = ""
     for receipt in new_receipts:## loop on all
         receipt_text += f"- File: {receipt['image_file']}, Store: {receipt['merchant']}, Amount: ₹{receipt['total']}\n"
+
+    # Give the AI keyword hints per category so it has something concrete to match merchant names against
+    hints_text = ""
+    for category, keywords in CATEGORY_HINTS.items():
+        hints_text += f"- {category}: {', '.join(keywords)}\n"
     
     prompt = f"""
     Look at these receipts:
     {receipt_text} ## basically contain data of all reciepts
     
     Pick ONE category for each receipt from this list: {', '.join(VALID_CATEGORIES)}
+
+    Here are keyword hints for each category, based on the kind of store or item they usually match:
+    {hints_text}
+
+    This list is exhaustive, so always pick the closest matching category even if the merchant name isn't an exact keyword match. Do not invent categories outside this list.
     
     Return ONLY a JSON dictionary in the following format (no extra text):
     {{
       "receipt_name.jpg": {{
-        "category": "Groceries",
+        "category": "Groceries & Quick Commerce",
         "reason": "Because they bought food."
       }}
     }}
@@ -111,7 +171,7 @@ def get_analyze_task(agent, all_receipts):
     Return ONLY a JSON dictionary in the following format (no extra text):
     {{
       "total_spent": 100.50,
-      "by_category": {{"Groceries": 50.00, "Other": 50.50}},
+      "by_category": {{"Groceries & Quick Commerce": 50.00, "Dining Out": 50.50}},
       "insights": ["Insight 1", "Insight 2"]
     }}
     """
