@@ -1,0 +1,39 @@
+{
+  "analysis": {
+    "total_spent": 947.54,
+    "by_category": {
+      "Groceries": 450.69,
+      "Snacks": 91.58,
+      "Other": 143.91,
+      "Entertainment": 31.33,
+      "Medical & Healthcare": 21.42,
+      "Food & Drinks": 194.86,
+      "Transportation": 8.87,
+      "Electronics & Tech": 4.88
+    },
+    "category_counts": {
+      "Groceries": 73,
+      "Snacks": 13,
+      "Other": 35,
+      "Entertainment": 4,
+      "Medical & Healthcare": 7,
+      "Food & Drinks": 10,
+      "Transportation": 1,
+      "Electronics & Tech": 1
+    },
+    "insights": [
+      "A significant majority (over 68%) of the total spending is concentrated on food-related categories, with Groceries alone accounting for nearly half (47.57%) of the overall expenditure, highlighting daily essentials as the primary spending focus.",
+      "Groceries show a very high transaction volume (73 items), indicating frequent purchases or a wide variety of items bought within this category, while the 'Other' category also has a notable number of items (35) for its spend, suggesting numerous small, miscellaneous transactions.",
+      "Discretionary and specific need categories such as Entertainment, Medical & Healthcare, Transportation, and Electronics & Tech represent a very small fraction (less than 10% combined) of the total spending, suggesting these are not areas of significant recurring expenditure during this period."
+    ]
+  },
+  "advice": {
+    "budget_status": "Needs Adjustment",
+    "tips": [
+      "**Master Your Meal Planning & Home Cooking:** Your food-related spending (Groceries, Snacks, Food & Drinks) accounts for a large portion of your budget. By planning your meals for the week, making a grocery list, and cooking more at home, you can significantly reduce expenses on eating out and convenience snacks. Consider bulk-buying non-perishable staples when on sale.",
+      "**Scrutinize the 'Other' Category:** With 35 items for ₹143.91, this category suggests many small, miscellaneous purchases. Try to track these 'other' expenses more closely for a week or two. You might uncover recurring small costs that can be easily reduced or eliminated (e.g., small impulse buys, certain apps, or subscriptions you don't use often)."
+    ],
+    "quick_win": "Before your next grocery trip, take 15 minutes to plan out a few meals and snacks you can prepare at home. Make a detailed shopping list based *only* on those items, and stick to it strictly in the store. This simple step can prevent impulse buys and make a noticeable difference in your grocery bill!",
+    "positive_note": "You're already doing great by keeping your spending low in areas like entertainment, transportation, and electronics – that shows good discipline! By focusing on optimizing your food and miscellaneous spending, you're well on your way to a super savvy college budget. Keep up the fantastic work; every rupee saved is a win!"
+  }
+}

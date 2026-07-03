@@ -5,127 +5,114 @@ from crewai import Agent, Task, LLM
 
 load_dotenv()
 
-if not os.environ.get("GEMINI_API_KEY"):
-    print("Error: GEMINI_API_KEY not found in .env file!")
-    exit()
-
 # Initialize primary language model
-gemini_engine = LLM(
+llm = LLM(
     model="gemini/gemini-2.5-flash",
     api_key=os.environ.get("GEMINI_API_KEY")
 )
 
-# Comprehensive taxonomy mapped to common retail items
-EXPENDITURE_TAXONOMY = {
-    "Groceries & Pantry": [
-        "carrot", "cucumber", "tomato", "oatmeal", "mozzarella", "cheese", "egg", "bean",
-        "avocado", "apple", "pepper", "banana", "peanut butter", "bread", "pita", "milk",
-        "curd", "paneer", "butter", "flour", "atta", "dal", "rice", "sugar", "salt",
-        "oil", "spice", "grocery", "trader joe", "zepto", "blinkit", "bigbasket", "produce"
-    ],
-    "Café & Prepared Dining": [
-        "frap", "coffee", "latte", "cappuccino", "espresso", "tea", "chai", "burger",
-        "pizza", "noodle", "pasta", "biryani", "restaurant", "cafe", "bistro", "diner",
-        "fast food", "mcdonalds", "kfc", "starbucks", "subway", "swiggy", "zomato", "bakery"
-    ],
-    "Logistics & Transit": [
-        "fuel", "petrol", "diesel", "gas", "uber", "ola", "rapido", "taxi", "auto",
-        "metro", "bus", "train", "flight", "parking", "toll", "service", "tyre", "repair"
-    ],
-    "Housing & Utilities": [
-        "rent", "electricity", "power", "water", "gas", "cylinder", "wifi", "broadband",
-        "internet", "recharge", "mobile", "phone", "maintenance", "utility"
-    ],
-    "Apparel & Personal Style": [
-        "clothing", "shirt", "tshirt", "jeans", "pants", "dress", "shoes", "sneakers",
-        "footwear", "watch", "bag", "wallet", "boutique", "zara", "h&m", "myntra"
-    ],
-    "Technology & Hardware": [
-        "electronics", "gadget", "laptop", "phone", "tablet", "computer", "software",
-        "subscription", "cloud", "cable", "charger", "headphone", "earphone", "monitor", "usb"
-    ],
-    "Health & Personal Care": [
-        "pharmacy", "medicine", "tablet", "pill", "apollo", "medplus", "medical", "doctor",
-        "hospital", "clinic", "gym", "fitness", "supplement", "protein", "shampoo", "soap", "salon"
-    ],
-    "Recreation & Media": [
-        "movie", "pvr", "inox", "netflix", "prime", "hotstar", "spotify", "youtube",
-        "concert", "show", "event", "ticket", "gaming", "steam"
-    ],
-    "Home & Living": [
-        "furniture", "ikea", "chair", "table", "bed", "mattress", "cleaning",
-        "detergent", "laundry", "hardware", "utensil", "kitchenware", "home"
-    ],
-    "Academics & Learning": [
-        "tuition", "education", "school", "college", "book", "textbook", "notebook",
-        "pen", "stationery", "course", "udemy", "coursera"
-    ],
-    "Taxes, Discounts & Adjustments": [
-        "tax", "gst", "vat", "discount", "given", "coupon", "fee", "charge", "interest", "penalty"
-    ]
+# Simple list of spending categories
+CATEGORIES = [
+    "Groceries",
+    "Food & Drinks",
+    "Snacks",
+    "Transportation",
+    "Housing & Utilities",
+    "Clothing & Apparel",
+    "Electronics & Tech",
+    "Medical & Healthcare",
+    "Entertainment",
+    "Education",
+    "Other"
+]
+
+# Simple keyword lookup for quick category matching
+SIMPLE_KEYWORDS = {
+    "Groceries": ["carrot", "cucumber", "tomato", "oatmeal", "mozzarella", "cheese", "milk", "bread", "oil", "rice", "dal", "sugar", "salt", "grocery", "trader joe"],
+    "Food & Drinks": ["coffee", "tea", "burger", "pizza", "noodle", "pasta", "biryani", "restaurant", "cafe", "fast food", "starbucks", "swiggy", "zomato"],
+    "Transportation": ["fuel", "petrol", "uber", "ola", "taxi", "auto", "metro", "bus", "train", "flight", "parking"],
+    "Housing & Utilities": ["rent", "electricity", "water", "gas", "wifi", "internet", "recharge", "mobile"],
+    "Clothing & Apparel": ["shirt", "tshirt", "jeans", "dress", "shoes", "sneakers", "watch", "bag", "zara", "h&m"],
+    "Electronics & Tech": ["laptop", "phone", "tablet", "computer", "software", "subscription", "charger", "earphone"],
+    "Medical & Healthcare": ["pharmacy", "medicine", "pill", "hospital", "clinic", "gym", "soap", "shampoo"],
+    "Entertainment": ["movie", "netflix", "prime", "spotify", "concert", "ticket", "gaming"],
+    "Education": ["tuition", "school", "college", "book", "notebook", "pen", "course"]
 }
 
-AVAILABLE_BUCKETS = list(EXPENDITURE_TAXONOMY.keys())
+def guess_category(description):
+    """Simple helper to guess a category based on keywords."""
+    text = str(description).lower()
+    for category, keywords in SIMPLE_KEYWORDS.items():
+        for kw in keywords:
+            if kw in text:
+                return category
+    return "Groceries"
 
-def build_item_classification_agent():
-    """Agent specialized in item-level retail classification."""
+
+# ==========================================
+# AGENTS (Simple functions, no classes!)
+# ==========================================
+
+def categorizer_agent():
+    """Agent that categorizes receipts and line items."""
     return Agent(
-        role="Line-Item Taxonomist",
-        goal="Classify individual retail line items into accurate expenditure buckets.",
-        backstory="You are a data engineer skilled at retail SKU mapping. You analyze item descriptions and merchant contexts to classify items with high precision. Return ONLY valid JSON.",
-        llm=gemini_engine,
+        role="Expense Categorization Expert",
+        goal="Accurately categorize purchased items into appropriate spending categories",
+        backstory="""You are an expert at analyzing shopping receipts and categorizing expenses.
+        You understand context and always return valid structured JSON.""",
+        llm=llm,
         verbose=True,
         allow_delegation=False
     )
 
-def build_financial_auditor_agent():
-    """Agent that synthesizes itemized spending patterns."""
+def analyst_agent():
+    """Agent that finds spending patterns and insights."""
     return Agent(
-        role="Senior Financial Auditor",
-        goal="Evaluate line-item expenditure distribution and extract behavioral insights.",
-        backstory="You are an auditor who relies strictly on deterministic Python accounting summaries. You discover micro-spending trends and item preferences. Return ONLY valid JSON.",
-        llm=gemini_engine,
+        role="Spending Pattern Analyst",
+        goal="Identify spending trends and habits from expense data",
+        backstory="""You are a smart financial analyst who finds patterns in spending data.
+        You always return structured JSON with helpful insights.""",
+        llm=llm,
         verbose=True,
         allow_delegation=False
     )
 
-def build_student_coach_agent():
-    """Agent that translates financial audits into student-focused advice."""
+def advisor_agent():
+    """Agent that gives practical financial advice."""
     return Agent(
-        role="Student Financial Advisory Lead",
-        goal="Provide practical, non-judgmental financial coaching tailored to college life.",
-        backstory="You are a mentor specializing in student personal finance. You create actionable strategies for reducing recurring costs without sacrificing quality of life. Return ONLY valid JSON.",
-        llm=gemini_engine,
+        role="Personal Finance Advisor",
+        goal="Provide practical budgeting advice and actionable tips for college students",
+        backstory="""You are a friendly personal finance mentor specializing in college student budgeting.
+        You give practical, realistic tips to save money. Return valid JSON.""",
+        llm=llm,
         verbose=True,
         allow_delegation=False
     )
 
-def create_item_mapping_task(agent, line_items_batch):
-    """Generates task for item-wise classification."""
-    items_str = ""
-    for entry in line_items_batch:
-        items_str += f"- ID: {entry['unique_key']} | Store: {entry['merchant']} | Item: '{entry['description']}' | Cost: ₹{entry['amount']}\n"
 
-    hints_str = "\n".join(
-        f"• {bucket}: {', '.join(kws)}" for bucket, kws in EXPENDITURE_TAXONOMY.items()
-    )
+# ==========================================
+# TASKS
+# ==========================================
+
+def create_categorization_task(agent, items):
+    """Task to categorize a batch of receipt items."""
+    items_list = ""
+    for item in items:
+        items_list += f"- ID: {item['unique_key']} | Store: {item['merchant']} | Item: '{item['description']}' | Cost: ₹{item['amount']}\n"
+
+    categories_str = ", ".join(CATEGORIES)
 
     prompt = f"""
-    Classify the following retail line items:
-    {items_str}
+    Classify each of the following receipt line items into one category:
+    {items_list}
 
-    Assign ONE classification bucket to each item ID from this exact taxonomy:
-    {', '.join(AVAILABLE_BUCKETS)}
+    Choose ONE category for each item ID from this exact list:
+    {categories_str}
 
-    Taxonomy Keywords & Definitions:
-    {hints_str}
-
-    Return ONLY a JSON dictionary mapping each unique ID string to its category and rationale:
+    Return ONLY a valid JSON dictionary mapping each item ID to its assigned category:
     {{
-      "rec1_item1": {{
-        "category": "Groceries & Pantry",
-        "confidence": 0.98,
-        "rationale": "Fresh produce item."
+      "r1_i1": {{
+        "category": "Groceries"
       }}
     }}
     """
@@ -133,29 +120,29 @@ def create_item_mapping_task(agent, line_items_batch):
     return Task(
         description=prompt,
         agent=agent,
-        expected_output="JSON dictionary mapping unique item IDs to taxonomy classifications."
+        expected_output="JSON dictionary mapping item IDs to spending categories."
     )
 
-def create_audit_task(agent, python_accounting_summary):
-    """Generates task for qualitative audit of Python deterministic math."""
+def create_analysis_task(agent, summary):
+    """Task to analyze spending trends."""
     prompt = f"""
-    Review the deterministic accounting summary computed by Python verification scripts:
-    Overall Verified Total: ₹{python_math_total(python_accounting_summary):.2f}
+    Review this spending summary:
+    Total Spent: ₹{summary['overall_total']:.2f}
     
-    Category Expenditure Breakdown:
-    {json.dumps(python_accounting_summary['category_totals'], indent=2)}
+    Spending by Category:
+    {json.dumps(summary['category_totals'], indent=2)}
 
-    Item Count per Category:
-    {json.dumps(python_accounting_summary['item_counts'], indent=2)}
+    Number of Items by Category:
+    {json.dumps(summary['item_counts'], indent=2)}
 
-    Generate 3 to 4 analytical observations focusing on specific item concentration, average item cost, and merchant habits.
+    Generate 3 to 4 helpful analytical observations about where the money goes and general spending habits.
 
     Return ONLY a JSON dictionary:
     {{
-      "audit_insights": [
-        "First observation regarding spending concentration.",
-        "Second observation highlighting item transaction frequency.",
-        "Third observation evaluating expenditure velocity."
+      "insights": [
+        "First observation about spending concentration.",
+        "Second observation about spending frequency.",
+        "Third observation evaluating top expenses."
       ]
     }}
     """
@@ -163,39 +150,36 @@ def create_audit_task(agent, python_accounting_summary):
     return Task(
         description=prompt,
         agent=agent,
-        expected_output="JSON object containing financial audit observations."
+        expected_output="JSON object containing financial insights."
     )
 
-def python_math_total(summary):
-    return summary.get("overall_total", 0.0)
-
-def create_coaching_task(agent, python_accounting_summary, audit_observations):
-    """Generates task for student budgeting advisory."""
+def create_advisory_task(agent, summary, insights):
+    """Task to give budgeting advice to the student."""
     prompt = f"""
-    Review verified student accounting totals:
-    Total Spent: ₹{python_accounting_summary['overall_total']:.2f}
-    Category Distribution: {json.dumps(python_accounting_summary['category_totals'])}
+    Review the student's spending data:
+    Total Spent: ₹{summary['overall_total']:.2f}
+    Spending by Category: {json.dumps(summary['category_totals'])}
 
-    Audit Observations:
-    {json.dumps(audit_observations)}
+    Analysis Insights:
+    {json.dumps(insights)}
 
-    Provide actionable personal finance recommendations for a university student.
+    Provide friendly, actionable personal finance recommendations tailored for a college student.
     Return ONLY a JSON object:
     {{
       "analysis": {{
-        "total_spent": {python_accounting_summary['overall_total']},
-        "by_category": {json.dumps(python_accounting_summary['category_totals'])},
-        "item_counts": {json.dumps(python_accounting_summary['item_counts'])},
-        "insights": {json.dumps(audit_observations)}
+        "total_spent": {summary['overall_total']},
+        "by_category": {json.dumps(summary['category_totals'])},
+        "category_counts": {json.dumps(summary['item_counts'])},
+        "insights": {json.dumps(insights)}
       }},
       "advice": {{
-        "budget_status": "Optimized / Stable / Needs Adjustment",
+        "budget_status": "Healthy / Needs Adjustment",
         "tips": [
-          "First concrete cost-reduction recommendation.",
-          "Second lifestyle optimization recommendation."
+          "First practical tip to save money.",
+          "Second helpful budgeting suggestion."
         ],
-        "quick_win": "Immediate adjustment for today.",
-        "positive_note": "Short word of encouragement."
+        "quick_win": "One easy action you can take right now.",
+        "positive_note": "Encouraging closing message."
       }}
     }}
     """
@@ -203,5 +187,5 @@ def create_coaching_task(agent, python_accounting_summary, audit_observations):
     return Task(
         description=prompt,
         agent=agent,
-        expected_output="Complete financial health report combining Python math, audit, and advice."
+        expected_output="Complete financial health report in JSON format."
     )
