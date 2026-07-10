@@ -1,0 +1,42 @@
+{
+  "analysis": {
+    "total_spent": 947.54,
+    "by_category": {
+      "Groceries": 450.69,
+      "Snacks": 91.58,
+      "Other": 143.91,
+      "Entertainment": 31.33,
+      "Medical & Healthcare": 21.42,
+      "Food & Drinks": 194.86,
+      "Transportation": 8.87,
+      "Electronics & Tech": 4.88
+    },
+    "category_counts": {
+      "Groceries": 73,
+      "Snacks": 13,
+      "Other": 35,
+      "Entertainment": 4,
+      "Medical & Healthcare": 7,
+      "Food & Drinks": 10,
+      "Transportation": 1,
+      "Electronics & Tech": 1
+    },
+    "insights": [
+      "Over 77% of the total spending (₹737.13 out of ₹947.54) is allocated to food-related categories (Groceries, Food & Drinks, and Snacks), making sustenance the overwhelming primary spending area.",
+      "Groceries alone account for almost half (₹450.69 or 47.56%) of the total expenditure, with 73 individual items, indicating very frequent and substantial grocery shopping habits.",
+      "The 'Other' category, despite being only the third-highest in total spend (₹143.91), has a high number of items (35). This suggests frequent small, unclassified purchases that could potentially be categorized further for clearer insights.",
+      "Spending on categories like Transportation, Electronics & Tech, and Entertainment is notably low in both amount and frequency, indicating these are not significant or regular expenses during this period."
+    ]
+  },
+  "advice": {
+    "budget_status": "Needs Adjustment",
+    "tips": [
+      "**Conquer Your Food Budget:** Since over 77% of your spending goes to food, this is your biggest opportunity to save! Try meal prepping for the week – cooking larger batches of meals can cut down on those frequent grocery trips and reduce impulsive snack or take-out purchases. Also, look for student discounts, buy store-brand items, and plan your meals around sales.",
+      "**Smart Grocery Shopping Habits:** With 73 grocery items, it suggests very frequent shopping. Try to consolidate your grocery trips to once or twice a week with a clear list. This can help reduce impulse buys and save you time. Buying certain staples in bulk (if storage allows) can also be cost-effective.",
+      "**Snack Smart, Save More:** Your snack spending adds up! Instead of buying individual snacks frequently, consider buying snacks in bulk or making your own healthy options at home. Packing snacks can help you avoid convenience store markups and unplanned purchases.",
+      "**Demystify the 'Other' Category:** With 35 items in 'Other,' it seems like a lot of small, unclassified purchases are happening. Try to be more specific when tracking these. Even small expenses, when frequent, can significantly impact your budget. Knowing what they are can help you decide if they're truly necessary or if there are cheaper alternatives."
+    ],
+    "quick_win": "For the next week, commit to bringing all your snacks from home and make a detailed list before every grocery trip to stick only to essentials. Also, consciously try to categorize any 'Other' purchase into a more specific bucket (e.g., 'Coffee', 'Stationery', 'Personal Care') right after you buy it.",
+    "positive_note": "It's fantastic to see that your spending on categories like Transportation, Electronics & Tech, and Entertainment is already very low – you're doing a great job keeping those costs down! With a focused effort on your food spending and better clarity on your 'Other' category, you can make significant strides in stretching your budget further. Keep up the good work!"
+  }
+}

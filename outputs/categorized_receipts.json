@@ -1150,5 +1150,213 @@
         "category": "Groceries"
       }
     ]
+  },
+  {
+    "seq_no": 17,
+    "image_file": "0 (1).jpg",
+    "merchant": "SUPERCENTER OPEN 24 HOURS",
+    "date": "unknown",
+    "total": 5.11,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "lb @ 1 lb /0.49",
+        "quantity": 0.41,
+        "amount": 0.2,
+        "category": "Groceries"
+      },
+      {
+        "item_id": 2,
+        "description": "FRAP001200010451 F",
+        "quantity": 1.0,
+        "amount": 5.48,
+        "category": "Groceries"
+      },
+      {
+        "item_id": 3,
+        "description": "DISCOUNT GIVEN",
+        "quantity": 1.0,
+        "amount": 0.57,
+        "category": "Other"
+      }
+    ]
+  },
+  {
+    "seq_no": 18,
+    "image_file": "0.jpg",
+    "merchant": "SUPERCENTER OPEN 24 HOURS",
+    "date": "unknown",
+    "total": 5.11,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "lb @ 1 lb /0.49",
+        "quantity": 0.41,
+        "amount": 0.2,
+        "category": "Groceries"
+      },
+      {
+        "item_id": 2,
+        "description": "FRAP001200010451 F",
+        "quantity": 1.0,
+        "amount": 5.48,
+        "category": "Groceries"
+      },
+      {
+        "item_id": 3,
+        "description": "DISCOUNT GIVEN",
+        "quantity": 1.0,
+        "amount": 0.57,
+        "category": "Other"
+      }
+    ]
+  },
+  {
+    "seq_no": 19,
+    "image_file": "014 (1).jpg",
+    "merchant": "UROKO JAPANESE CUISINE SDN BHD",
+    "date": "2018-03-20",
+    "total": 53.0,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "KO NABE INANIWA",
+        "quantity": 1.0,
+        "amount": 24.0,
+        "category": "Food & Drinks"
+      },
+      {
+        "item_id": 2,
+        "description": "GREEN TEA",
+        "quantity": 1.0,
+        "amount": 1.0,
+        "category": "Food & Drinks"
+      },
+      {
+        "item_id": 3,
+        "description": "GYOZA",
+        "quantity": 1.0,
+        "amount": 15.0,
+        "category": "Food & Drinks"
+      },
+      {
+        "item_id": 4,
+        "description": "GARLIC CHAHAN @[ T",
+        "quantity": 1.0,
+        "amount": 6.0,
+        "category": "Food & Drinks"
+      },
+      {
+        "item_id": 5,
+        "description": "Total:",
+        "quantity": 4.0,
+        "amount": 46.0,
+        "category": "Other"
+      },
+      {
+        "item_id": 6,
+        "description": "Service Chg 10.00%:",
+        "quantity": 1.0,
+        "amount": 4.0,
+        "category": "Food & Drinks"
+      }
+    ]
+  },
+  {
+    "seq_no": 20,
+    "image_file": "014.jpg",
+    "merchant": "UROKO JAPANESE CUISINE SDN BHD",
+    "date": "2018-03-20",
+    "total": 53.0,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "KO NABE INANIWA",
+        "quantity": 1.0,
+        "amount": 24.0,
+        "category": "Food & Drinks"
+      },
+      {
+        "item_id": 2,
+        "description": "GREEN TEA",
+        "quantity": 1.0,
+        "amount": 1.0,
+        "category": "Food & Drinks"
+      },
+      {
+        "item_id": 3,
+        "description": "GYOZA",
+        "quantity": 1.0,
+        "amount": 15.0,
+        "category": "Food & Drinks"
+      },
+      {
+        "item_id": 4,
+        "description": "GARLIC CHAHAN @[ T",
+        "quantity": 1.0,
+        "amount": 6.0,
+        "category": "Food & Drinks"
+      },
+      {
+        "item_id": 5,
+        "description": "Total:",
+        "quantity": 4.0,
+        "amount": 46.0,
+        "category": "Other"
+      },
+      {
+        "item_id": 6,
+        "description": "Service Chg 10.00%:",
+        "quantity": 1.0,
+        "amount": 4.0,
+        "category": "Food & Drinks"
+      }
+    ]
+  },
+  {
+    "seq_no": 21,
+    "image_file": "112.jpg",
+    "merchant": "PANA JAYA ENTERPRISE",
+    "date": "2018-03-21",
+    "total": 105.0,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "9928 28 IN BASIN",
+        "quantity": 1.0,
+        "amount": 35.0,
+        "category": "Housing & Utilities"
+      },
+      {
+        "item_id": 2,
+        "description": "TG WFD32 PP BOWL CTN",
+        "quantity": 1.0,
+        "amount": 70.0,
+        "category": "Housing & Utilities"
+      },
+      {
+        "item_id": 3,
+        "description": "Total (Excluding GST):",
+        "quantity": 1.0,
+        "amount": 99.06,
+        "category": "Other"
+      }
+    ]
+  },
+  {
+    "seq_no": 22,
+    "image_file": "118.jpg",
+    "merchant": "MR. D.1.Y.(M) SDN BHD",
+    "date": "2018-03-18",
+    "total": 6.6,
+    "line_items": [
+      {
+        "item_id": 1,
+        "description": "9690059",
+        "quantity": 2.0,
+        "amount": 6.6,
+        "category": "Housing & Utilities"
+      }
+    ]
   }
 ]

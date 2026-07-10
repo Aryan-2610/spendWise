@@ -1,5 +1,5 @@
 # Step 1: Extract line items using Asprise OCR endpoint under test mode
-./.venv/bin/python scan-reciepts-hf.py
+./.venv/bin/python scan-reciepts-asprise.py
 
 # Step 2: Run item-wise categorization, Python accounting engine & AI audit
 ./.venv/bin/python run.py

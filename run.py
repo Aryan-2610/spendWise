@@ -1,11 +1,12 @@
 import os
 import re
 import json
+import util
 from crewai import Crew, Process
 from agents_And_tasks import (
     categorizer_agent, analyst_agent, advisor_agent,
     create_categorization_task, create_analysis_task, create_advisory_task,
-    CATEGORIES, guess_category
+    CATEGORIES
 )
 
 OCR_INPUT_FILE = "outputs/ocr_results.json"
@@ -16,6 +17,10 @@ def clean_json_response(raw_text):
     """Clean up and parse JSON from LLM output."""
     if not raw_text:
         return {}
+    if hasattr(raw_text, "raw"):
+        raw_text = raw_text.raw
+    elif hasattr(raw_text, "output"):
+        raw_text = raw_text.output
     cleaned = str(raw_text).strip()
     cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
     cleaned = re.sub(r"\s*```$", "", cleaned)
@@ -35,7 +40,6 @@ def clean_json_response(raw_text):
 def run_pipeline():
    
     print(" STARTING RECEIPT ANALYSIS PIPELINE")
-  
 
     if not os.path.exists(OCR_INPUT_FILE):
         print(f"Error: Could not find '{OCR_INPUT_FILE}'. Please scan receipts first.")
@@ -99,14 +103,25 @@ def run_pipeline():
 
             for item in batch:
                 key = item["unique_key"]
-                desc = item["description"]
-                if key in parsed and isinstance(parsed[key], dict):
-                    category = parsed[key].get("category")
-                else:
-                    category = guess_category(desc)
+                val = parsed.get(key)
+                category = None
+                if isinstance(val, dict):
+                    category = val.get("category")
+                elif isinstance(val, str):
+                    category = val
 
-                if category not in CATEGORIES:
-                    category = guess_category(desc)
+                if category:
+                    category = category.strip()
+                    if category not in CATEGORIES:
+                        # Case-insensitive or partial match against valid categories
+                        for valid_cat in CATEGORIES:
+                            if valid_cat.lower() in category.lower() or category.lower() in valid_cat.lower():
+                                category = valid_cat
+                                break
+                        else:
+                            category = "Other"
+                else:
+                    category = "Other"
 
                 category_map[key] = category
 
@@ -117,7 +132,7 @@ def run_pipeline():
         new_line_items = []
         for item in doc.get("line_items", []):
             key = f"r{seq}_i{item.get('item_id', 1)}"
-            cat = category_map.get(key, guess_category(item.get("description", "")))
+            cat = category_map.get(key, "Other")
             new_item = dict(item)
             new_item["category"] = cat
             new_line_items.append(new_item)
@@ -157,7 +172,7 @@ def run_pipeline():
         "item_counts": item_counts
     }
 
-    print(f"   -> Total Spent: ₹{total_spent:,.2f}")
+    print(f"   -> Total Spent: {util.symbol}{total_spent:,.2f}")
 
     # 3. Analyze patterns and generate advice
     print("\nGenerating insights and student budgeting advice...")

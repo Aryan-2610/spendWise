@@ -1,11 +1,12 @@
 import os
 import json
+import util
 from dotenv import load_dotenv
 from crewai import Agent, Task, LLM
 
 load_dotenv()
 
-# Initialize primary language model
+# Initialize llm
 llm = LLM(
     model="gemini/gemini-2.5-flash",
     api_key=os.environ.get("GEMINI_API_KEY")
@@ -25,36 +26,10 @@ CATEGORIES = [
     "Education",
     "Other"
 ]
-
-# Simple keyword lookup for quick category matching
-SIMPLE_KEYWORDS = {
-    "Groceries": ["carrot", "cucumber", "tomato", "oatmeal", "mozzarella", "cheese", "milk", "bread", "oil", "rice", "dal", "sugar", "salt", "grocery", "trader joe"],
-    "Food & Drinks": ["coffee", "tea", "burger", "pizza", "noodle", "pasta", "biryani", "restaurant", "cafe", "fast food", "starbucks", "swiggy", "zomato"],
-    "Transportation": ["fuel", "petrol", "uber", "ola", "taxi", "auto", "metro", "bus", "train", "flight", "parking"],
-    "Housing & Utilities": ["rent", "electricity", "water", "gas", "wifi", "internet", "recharge", "mobile"],
-    "Clothing & Apparel": ["shirt", "tshirt", "jeans", "dress", "shoes", "sneakers", "watch", "bag", "zara", "h&m"],
-    "Electronics & Tech": ["laptop", "phone", "tablet", "computer", "software", "subscription", "charger", "earphone"],
-    "Medical & Healthcare": ["pharmacy", "medicine", "pill", "hospital", "clinic", "gym", "soap", "shampoo"],
-    "Entertainment": ["movie", "netflix", "prime", "spotify", "concert", "ticket", "gaming"],
-    "Education": ["tuition", "school", "college", "book", "notebook", "pen", "course"]
-}
-
-def guess_category(description):
-    """Simple helper to guess a category based on keywords."""
-    text = str(description).lower()
-    for category, keywords in SIMPLE_KEYWORDS.items():
-        for kw in keywords:
-            if kw in text:
-                return category
-    return "Groceries"
-
-
-# ==========================================
-# AGENTS (Simple functions, no classes!)
-# ==========================================
+# AGENTS 
 
 def categorizer_agent():
-    """Agent that categorizes receipts and line items."""
+  ##categroize the items in each reciept
     return Agent(
         role="Expense Categorization Expert",
         goal="Accurately categorize purchased items into appropriate spending categories",
@@ -66,7 +41,7 @@ def categorizer_agent():
     )
 
 def analyst_agent():
-    """Agent that finds spending patterns and insights."""
+   ##identify spending pattern
     return Agent(
         role="Spending Pattern Analyst",
         goal="Identify spending trends and habits from expense data",
@@ -78,7 +53,7 @@ def analyst_agent():
     )
 
 def advisor_agent():
-    """Agent that gives practical financial advice."""
+    #give practical advice
     return Agent(
         role="Personal Finance Advisor",
         goal="Provide practical budgeting advice and actionable tips for college students",
@@ -89,27 +64,41 @@ def advisor_agent():
         allow_delegation=False
     )
 
+def chatter_agent():
+    #interactive financial chatter and coach based on audit and human feedback
+    return Agent(
+        role="Interactive Financial Coach & Chatter",
+        goal="Engage in conversational budgeting dialogue based on user feedback and multi-agent audit data",
+        backstory="""You are the front-facing conversational coach of the SpendWise AI Crew.
+        You take the analytical breakdowns from the Spending Pattern Analyst and the tactical tips
+        from the Personal Finance Advisor, tailoring them dynamically to live human feedback and advice. Keep responses short, practical, and formatted cleanly in bullet points.""",
+        llm=llm,
+        verbose=True,
+        allow_delegation=False
+    )
 
-# ==========================================
 # TASKS
-# ==========================================
-
 def create_categorization_task(agent, items):
     """Task to categorize a batch of receipt items."""
-    items_list = ""
+    items_list = "" ##empty string
     for item in items:
-        items_list += f"- ID: {item['unique_key']} | Store: {item['merchant']} | Item: '{item['description']}' | Cost: ₹{item['amount']}\n"
+        ##append to the item list a new line in which unique key ,store,desc,amount is there as a string to send to llm
+        items_list += f"- ID: {item['unique_key']} | Store: {item['merchant']} | Item: '{item['description']}' | Cost: {util.symbol}{item['amount']}\n"
 
-    categories_str = ", ".join(CATEGORIES)
+    categories_str = ", ".join(CATEGORIES) ## all the categories join it
 
     prompt = f"""
-    Classify each of the following receipt line items into one category:
+    Classify each of the following receipt line items into appropriate spending categories based on description and store name.
     {items_list}
 
     Choose ONE category for each item ID from this exact list:
     {categories_str}
 
-    Return ONLY a valid JSON dictionary mapping each item ID to its assigned category:
+    IMPORTANT INSTRUCTIONS:
+    1. Do NOT default everything to Groceries. Accurately distinguish restaurants/coffee (Food & Drinks), snacks (Snacks), clothes (Clothing & Apparel), rides/fuel (Transportation), gadgets (Electronics & Tech), etc.
+    2. You MUST include every single item ID listed above in your output dictionary. Do not omit any ID.
+
+    Return ONLY a valid JSON dictionary mapping each item ID to a dictionary with the category:
     {{
       "r1_i1": {{
         "category": "Groceries"
@@ -127,7 +116,7 @@ def create_analysis_task(agent, summary):
     """Task to analyze spending trends."""
     prompt = f"""
     Review this spending summary:
-    Total Spent: ₹{summary['overall_total']:.2f}
+    Total Spent: {util.symbol}{summary['overall_total']:.2f}
     
     Spending by Category:
     {json.dumps(summary['category_totals'], indent=2)}
@@ -157,7 +146,7 @@ def create_advisory_task(agent, summary, insights):
     """Task to give budgeting advice to the student."""
     prompt = f"""
     Review the student's spending data:
-    Total Spent: ₹{summary['overall_total']:.2f}
+    Total Spent: {util.symbol}{summary['overall_total']:.2f}
     Spending by Category: {json.dumps(summary['category_totals'])}
 
     Analysis Insights:
@@ -188,4 +177,37 @@ def create_advisory_task(agent, summary, insights):
         description=prompt,
         agent=agent,
         expected_output="Complete financial health report in JSON format."
+    )
+
+def create_chat_task(agent, user_prompt, chat_history, financial_context):
+    """Task for the chatter agent to converse based on human feedback and audit advice."""
+    history_str = ""
+    for msg in chat_history[:-1]:
+        role_name = "User" if msg["role"] == "user" else "SpendWise AI Coach"
+        history_str += f"{role_name}: {msg['content']}\n\n"
+
+    prompt = f"""
+    Review the user's audited financial spending report, analysis insights from the Analyst agent, and tips from the Advisor agent:
+    {financial_context}
+
+    Ongoing Conversation & Human Feedback:
+    {history_str}
+
+    Latest User Input / Question:
+    {user_prompt}
+
+    As the SpendWise AI Interactive Chatter, synthesize the Analyst and Advisor agent data to answer the user's question.
+    CRITICAL INSTRUCTIONS:
+    1. STRICT DOMAIN BOUNDARY: Strictly answer questions related to personal finance, budgeting, household cost-cutting, expense auditing, and financial literacy. If unrelated, politely state you only advise on financial matters.
+    2. SHORT & CONCISE: Provide 3-4 punchy bullet points maximum (1-2 sentences per point).
+    3. PRACTICAL & TAILORED: Give specific, realistic advice based on the user's human feedback and exact audit numbers.
+    4. NO EMOJIS: Keep formatting clean and professional.
+
+    Return ONLY your direct text response to the user.
+    """
+
+    return Task(
+        description=prompt,
+        agent=agent,
+        expected_output="Concise, actionable bullet-point advice tailored to human feedback and audit data."
     )

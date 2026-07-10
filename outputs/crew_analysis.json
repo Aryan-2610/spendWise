@@ -1,39 +1,43 @@
 {
   "analysis": {
-    "total_spent": 947.54,
+    "total_spent": 1362.7,
     "by_category": {
-      "Groceries": 450.69,
+      "Groceries": 462.05,
       "Snacks": 91.58,
-      "Other": 143.91,
+      "Other": 336.11,
       "Entertainment": 31.33,
       "Medical & Healthcare": 21.42,
-      "Food & Drinks": 194.86,
+      "Food & Drinks": 294.86,
       "Transportation": 8.87,
-      "Electronics & Tech": 4.88
+      "Electronics & Tech": 4.88,
+      "Housing & Utilities": 111.6
     },
     "category_counts": {
-      "Groceries": 73,
+      "Groceries": 77,
       "Snacks": 13,
-      "Other": 35,
+      "Other": 40,
       "Entertainment": 4,
       "Medical & Healthcare": 7,
-      "Food & Drinks": 10,
+      "Food & Drinks": 20,
       "Transportation": 1,
-      "Electronics & Tech": 1
+      "Electronics & Tech": 1,
+      "Housing & Utilities": 3
     },
     "insights": [
-      "A significant majority (over 68%) of the total spending is concentrated on food-related categories, with Groceries alone accounting for nearly half (47.57%) of the overall expenditure, highlighting daily essentials as the primary spending focus.",
-      "Groceries show a very high transaction volume (73 items), indicating frequent purchases or a wide variety of items bought within this category, while the 'Other' category also has a notable number of items (35) for its spend, suggesting numerous small, miscellaneous transactions.",
-      "Discretionary and specific need categories such as Entertainment, Medical & Healthcare, Transportation, and Electronics & Tech represent a very small fraction (less than 10% combined) of the total spending, suggesting these are not areas of significant recurring expenditure during this period."
+      "Food-related expenses dominate the spending, with 'Groceries' (Rs462.05), 'Food & Drinks' (Rs294.86), and 'Snacks' (Rs91.58) collectively accounting for approximately 62.2% (Rs848.49) of the total spent, indicating a primary focus on daily sustenance and consumption.",
+      "The 'Groceries' category, while being the highest spend by value, also shows an exceptionally high number of items (77), suggesting frequent, possibly smaller, purchases rather than large, infrequent bulk buys. This indicates a consistent and regular spending habit on household food items.",
+      "The 'Other' category represents a substantial portion of spending (Rs336.11, or 24.7% of the total) across 40 items. The significant amount in this undefined category suggests that a considerable part of the budget is going towards miscellaneous expenses that are not clearly categorized, making it harder to identify specific non-food spending trends or potential areas for optimization."
     ]
   },
   "advice": {
     "budget_status": "Needs Adjustment",
     "tips": [
-      "**Master Your Meal Planning & Home Cooking:** Your food-related spending (Groceries, Snacks, Food & Drinks) accounts for a large portion of your budget. By planning your meals for the week, making a grocery list, and cooking more at home, you can significantly reduce expenses on eating out and convenience snacks. Consider bulk-buying non-perishable staples when on sale.",
-      "**Scrutinize the 'Other' Category:** With 35 items for ₹143.91, this category suggests many small, miscellaneous purchases. Try to track these 'other' expenses more closely for a week or two. You might uncover recurring small costs that can be easily reduced or eliminated (e.g., small impulse buys, certain apps, or subscriptions you don't use often)."
+      "**Master Your Meals:** Your food-related expenses (Groceries, Food & Drinks, Snacks) are over 60% of your total spending! Try planning your meals for the week, making a grocery list, and cooking more at home. This can significantly reduce how often you eat out or grab quick snacks, which tend to be pricier.",
+      "**Shop Smarter, Not More Often:** With 77 grocery purchases, it looks like you might be making frequent, smaller trips. Aim for fewer, larger grocery hauls to stock up on essentials. This not only saves time but also helps prevent impulse buys that add up.",
+      "**Uncover 'Other' Expenses:** The 'Other' category is a big mystery, making up nearly a quarter of your spending. Your most impactful next step is to start assigning a clear category to these 40 items. Understanding where this money goes is the first step to finding hidden savings!",
+      "**Snack Attack Strategy:** While snacks are a smaller portion, they still add up (Rs91.58). Consider buying bulk snacks or making your own healthy options at home to bring with you. It's often much cheaper than buying individual items on the go."
     ],
-    "quick_win": "Before your next grocery trip, take 15 minutes to plan out a few meals and snacks you can prepare at home. Make a detailed shopping list based *only* on those items, and stick to it strictly in the store. This simple step can prevent impulse buys and make a noticeable difference in your grocery bill!",
-    "positive_note": "You're already doing great by keeping your spending low in areas like entertainment, transportation, and electronics – that shows good discipline! By focusing on optimizing your food and miscellaneous spending, you're well on your way to a super savvy college budget. Keep up the fantastic work; every rupee saved is a win!"
+    "quick_win": "For your immediate quick win, try to categorize at least half of your 'Other' expenses from your most recent spending period. Knowing where that money truly goes will empower you to make smarter choices!",
+    "positive_note": "You've already taken a great step by tracking your spending! With a few adjustments and a clearer picture of your 'Other' category, you're well on your way to becoming a budgeting pro. Keep up the great work!"
   }
 }
